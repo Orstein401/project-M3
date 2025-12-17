@@ -13,16 +13,18 @@ public class PlayerController : MonoBehaviour
     private float vertical;
     private Vector2 direction;
 
-    private Vector2 lastDirection;
+    public Vector2 lastDirection;
 
     public Vector2 Direction
     {
-        get { return lastDirection; }
+        get { return direction; }
     }
 
     //Components 
     private Rigidbody2D _rb;
     public LifeController lifePlayer;
+
+    
 
  
     //Class Functions
@@ -38,9 +40,10 @@ public class PlayerController : MonoBehaviour
     public void DiePlayer()
     {
         Debug.Log("player morto");
+        Destroy(gameObject);
 
     }
-    //Unity functions
+    //Unity Messages
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();

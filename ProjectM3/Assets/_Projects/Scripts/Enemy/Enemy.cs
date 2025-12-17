@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private int _damage;
     [SerializeField] PlayerController player;
+    EnemyManager managerEnemy;
 
     public void ChasePlayer()
     {
@@ -19,8 +20,11 @@ public class Enemy : MonoBehaviour
     public void DieEnemy()
     {
         Debug.Log("nemico morto");
-        Destroy(gameObject);
+        GetComponent<Collider2D>().enabled=false;
+        managerEnemy .RemoveEnemy(this);
+        Destroy(gameObject,5f);
     }
+
     private void Awake()
     {
         lifeEnemy = GetComponent<LifeController>();
@@ -29,6 +33,9 @@ public class Enemy : MonoBehaviour
             lifeEnemy =gameObject.AddComponent<LifeController>();
         }
         lifeEnemy.Hp = _hp;
+
+        managerEnemy = FindAnyObjectByType<EnemyManager>();
+        managerEnemy.AddEnemy(this);
     }
 
     private void Update()

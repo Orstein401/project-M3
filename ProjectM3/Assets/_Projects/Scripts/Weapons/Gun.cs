@@ -7,27 +7,54 @@ public class Gun : MonoBehaviour
 {
     [SerializeField] Bullet bulletPrefab;
     [SerializeField] private float fireRate;
+    [SerializeField] private float fireRange;
+
+    EnemyManager managerEnemy;
 
     PlayerController directionShoot;
     private float lastTimeShoot;
     public void Shoot(Vector2 direction)
     {
-        Bullet bullet = Instantiate(bulletPrefab);
-        bullet.transform.position = gameObject.transform.position;
-        bullet.SetUpDirection(direction);
+        GameObject closeEnemy = FindNearestEnemy();
+        if (closeEnemy)
+        {
+            Bullet bullet = Instantiate(bulletPrefab);
+            bullet.transform.position = gameObject.transform.position;
+            bullet.SetUpDirection(direction);
+        }
+       
+    }
+
+    public GameObject FindNearestEnemy()
+    {
+        GameObject closestEnemy = null;
+        float minDist = fireRange;
+
+        foreach (var enemy in managerEnemy.enemies)
+        {
+            float distance = Vector2.Distance(transform.position, enemy.transform.position);
+            if (distance < minDist)
+            {
+                minDist = distance;
+                closestEnemy = enemy.gameObject;
+            }
+
+        }
+        return closestEnemy;
     }
 
     private void Awake()
     {
-
-        directionShoot=GetComponentInParent<PlayerController>();
+        directionShoot = GetComponentInParent<PlayerController>();
+        managerEnemy = FindAnyObjectByType<EnemyManager>();
     }
     private void Update()
     {
         if (Time.time - lastTimeShoot > fireRate)
         {
-            Shoot(directionShoot.Direction);
             lastTimeShoot = Time.time;
+            Shoot(directionShoot.lastDirection);
+
         }
     }
 }

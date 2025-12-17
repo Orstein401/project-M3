@@ -19,9 +19,8 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.collider.TryGetComponent<Enemy>(out var enemy))
         {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             enemy.lifeEnemy.TakeDamage(damage);
             if (!enemy.lifeEnemy.IsAlive())
             {
