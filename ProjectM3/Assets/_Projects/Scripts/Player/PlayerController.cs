@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     //Components 
     private Rigidbody2D _rb;
     public LifeController lifePlayer;
+    private AnimationPlayer _anim;
 
     
 
@@ -33,7 +34,9 @@ public class PlayerController : MonoBehaviour
         float lenghtVector = direction.magnitude;
         if (lenghtVector > 1)
         {
-            direction/=lenghtVector; 
+
+            direction/=Mathf.Sqrt(lenghtVector);
+
         }
     }
 
@@ -54,7 +57,7 @@ public class PlayerController : MonoBehaviour
             _rb.gravityScale = 0; 
         }
 
-
+        _anim = GetComponentInChildren<AnimationPlayer>();
         lifePlayer = GetComponent<LifeController>();
         if (lifePlayer == null)
         {
@@ -65,8 +68,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
+        horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
         direction = new Vector2(horizontal, vertical);
     }
 
@@ -74,7 +77,9 @@ public class PlayerController : MonoBehaviour
     {
         if (direction != Vector2.zero) 
         {
+           
             SetAndNormalize();
+            _anim.SetDirectionAnimation(direction);
             lastDirection = direction;
             _rb.MovePosition(_rb.position + direction * speed * Time.deltaTime);
         }
