@@ -11,28 +11,44 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _damage;
     [SerializeField] PlayerController player;
     EnemyManager managerEnemy;
+    private AnimationHandler _anim;
+    Vector2 direction;
 
     public void ChasePlayer()
     {
         transform.position = Vector2.MoveTowards(transform.position, player.transform.position, _speed * Time.deltaTime);
+
     }
 
+    private void SetDirAnimation()
+    {
+        direction = player.transform.position - transform.position;
+        direction.Normalize();
+        _anim.SetDirectionAnimation(direction);
+    }
     public void DieEnemy()
     {
         Debug.Log("nemico morto");
-        GetComponent<Collider2D>().enabled=false;
-        managerEnemy .RemoveEnemy(this);
-        Destroy(gameObject,5f);
+        GetComponent<Collider2D>().enabled = false;
+        managerEnemy.RemoveEnemy(this);
+        Destroy(gameObject, 5f);
     }
 
     private void Awake()
     {
-        lifeEnemy = GetComponent<LifeController>();
-        if(lifeEnemy == null)
+        _anim = GetComponentInChildren<AnimationHandler>();
+
+        if (player == null)
         {
-            lifeEnemy =gameObject.AddComponent<LifeController>();
+            player = FindAnyObjectByType<PlayerController>();
+        }
+        lifeEnemy = GetComponent<LifeController>();
+        if (lifeEnemy == null)
+        {
+            lifeEnemy = gameObject.AddComponent<LifeController>();
         }
         lifeEnemy.Hp = _hp;
+
 
         managerEnemy = FindAnyObjectByType<EnemyManager>();
         managerEnemy.AddEnemy(this);
@@ -40,7 +56,13 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        ChasePlayer();
+        
+        if (player != null)
+        {
+            SetDirAnimation();
+            ChasePlayer();
+        }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -55,6 +77,7 @@ public class Enemy : MonoBehaviour
             DieEnemy();
 
         }
+        Debug.Log("collide");
     }
 
 }

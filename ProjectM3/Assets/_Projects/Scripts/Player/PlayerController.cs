@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     //Components 
     private Rigidbody2D _rb;
     public LifeController lifePlayer;
-    private AnimationPlayer _anim;
+    private AnimationHandler _anim;
 
     
 
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
             _rb.gravityScale = 0; 
         }
 
-        _anim = GetComponentInChildren<AnimationPlayer>();
+        _anim = GetComponentInChildren<AnimationHandler>();
         lifePlayer = GetComponent<LifeController>();
         if (lifePlayer == null)
         {
@@ -76,11 +76,9 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         if (direction != Vector2.zero) 
-        {
-           
+        {         
             SetAndNormalize();
-            _anim.SetDirectionAnimation(direction);
-            lastDirection = direction;
+            lastDirection = direction.normalized;
             _rb.MovePosition(_rb.position + direction * speed * Time.deltaTime);
         }
        
