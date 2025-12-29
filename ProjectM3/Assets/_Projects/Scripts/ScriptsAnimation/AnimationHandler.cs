@@ -7,6 +7,8 @@ public class AnimationHandler : MonoBehaviour
     private Animator _anim;
     [SerializeField] string verticalSpeedName = "Vspeed";
     [SerializeField] string horizontalSpeedName = "Hspeed";
+    [SerializeField] string isDeath = "IsDeath";
+
 
 
     protected void Awake()
@@ -22,10 +24,14 @@ public class AnimationHandler : MonoBehaviour
     {
         _anim.SetFloat(horizontalSpeedName, Hspeed);
     }
-
     public void SetDirectionAnimation(Vector2 direction)
     {
         SetVerticalSpeed(direction.y);
         SetHorizontalSpeed(direction.x);
+    }
+
+    public void StartAnimationDeath(bool isDead)
+    {
+        _anim.SetBool(isDeath,isDead);
     }
 }

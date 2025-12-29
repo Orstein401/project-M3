@@ -6,12 +6,13 @@ public class PickUp : MonoBehaviour
 {
     [SerializeField] Gun gunPrefab;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.TryGetComponent<PlayerController>(out var player))
         {
-            Gun gun= Instantiate(gunPrefab, collision.gameObject.transform);
+            Gun gun = Instantiate(gunPrefab, collision.gameObject.transform);
             Destroy(gameObject);
         }
+
     }
 }

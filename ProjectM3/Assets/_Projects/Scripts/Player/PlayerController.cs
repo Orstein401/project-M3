@@ -24,9 +24,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rb;
     public LifeController lifePlayer;
     private AnimationHandler _anim;
-
-    
-
  
     //Class Functions
     public void SetAndNormalize()
@@ -80,6 +77,7 @@ public class PlayerController : MonoBehaviour
             SetAndNormalize();
             lastDirection = direction.normalized;
             _rb.MovePosition(_rb.position + direction * speed * Time.deltaTime);
+            _rb.velocity = Vector2.zero;
         }
        
     }
