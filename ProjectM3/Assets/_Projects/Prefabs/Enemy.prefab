@@ -105,7 +105,7 @@ MonoBehaviour:
   lifeEnemy: {fileID: 0}
   _hp: 3
   _speed: 3
-  _damage: 1
+  _damage: 2
   player: {fileID: 0}
 --- !u!61 &5948760496958211851
 BoxCollider2D:
@@ -201,6 +201,7 @@ MonoBehaviour:
   verticalSpeedName: Vspeed
   horizontalSpeedName: Hspeed
   isDeath: IsDeath
+  isShooting: IsShooting
 --- !u!50 &1620951545363853282
 Rigidbody2D:
   serializedVersion: 4

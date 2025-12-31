@@ -9,6 +9,7 @@ public class BossShoot : MonoBehaviour
     {
         if (player)
         {
+            direction = direction.normalized;
             Bullet bullet = Instantiate(bulletPrefab);
             bullet.transform.position = gameObject.transform.position;
             bullet.SetUpDirection(direction);

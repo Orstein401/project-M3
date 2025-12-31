@@ -8,6 +8,8 @@ public class AnimationHandler : MonoBehaviour
     [SerializeField] string verticalSpeedName = "Vspeed";
     [SerializeField] string horizontalSpeedName = "Hspeed";
     [SerializeField] string isDeath = "IsDeath";
+    [SerializeField] string isShooting = "IsShooting";
+
 
 
 
@@ -33,5 +35,9 @@ public class AnimationHandler : MonoBehaviour
     public void StartAnimationDeath(bool isDead)
     {
         _anim.SetBool(isDeath,isDead);
+    }
+    public void StartAnimationShoot(bool isShoot)
+    {
+        _anim.SetBool(isShooting, isShoot);
     }
 }

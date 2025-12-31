@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
         managerEnemy.RemoveEnemy(this);
         Destroy(gameObject, 5f);
-        Debug.Log("nemico morto");
+
     }
 
     protected virtual void Awake()
@@ -78,6 +78,8 @@ public class Enemy : MonoBehaviour
         if (collision.collider.TryGetComponent<PlayerController>(out var player))
         {
             player.lifePlayer.TakeDamage(_damage);
+            Debug.Log("vita player " + player.lifePlayer.Hp);
+
             if (!player.lifePlayer.IsAlive())
             {
                 player.DiePlayer();

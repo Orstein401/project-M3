@@ -6,7 +6,13 @@ public class EnemyManager : MonoBehaviour
 {
     [SerializeField] Boss bossPrefab;
     public List<Enemy> enemies;
-    private int numDeadNem;
+    private int numDeadNem;// quanti nemici sono morti
+    private int globalNumEnemy;//mi segna qaunti nemici sono esistiti all'inizio del gioco
+
+    private void Start()
+    {
+        globalNumEnemy=enemies.Count;
+    }
     public void AddEnemy(Enemy enemy)
     {
         enemies.Add(enemy);
@@ -15,11 +21,12 @@ public class EnemyManager : MonoBehaviour
     public void RemoveEnemy(Enemy enemy)
     {
         numDeadNem++;
-        if(numDeadNem==enemies.Count)
+        if(numDeadNem==globalNumEnemy)
         {
             SpawnBoss();
         }
         enemies.Remove(enemy);
+
     }
 
     public void SpawnBoss()

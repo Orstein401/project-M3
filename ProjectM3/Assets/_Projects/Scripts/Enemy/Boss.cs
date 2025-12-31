@@ -13,6 +13,8 @@ public class Boss : Enemy
     private float lastTimeShoot;
     [SerializeField] private float fireRate;
 
+    private bool isShooting = false;
+    [SerializeField]float spread = 0.3f;//di quanto la nuova direzione di sparo si deve aprire
 
 
     protected override void Awake()
@@ -23,28 +25,35 @@ public class Boss : Enemy
 
     private  void Update()
     {
-        Debug.Log("boss");
-
-        if (player != null && isDead == false)
+ 
+        if (player != null && !isDead)
         {
             SetDirAnimation(out dir);        
             float distance = Vector2.Distance(transform.position, player.transform.position);
             if (distance<= _rangeMeleeAttack || distance >= _rangeChasing)
             {
-                Debug.Log("te sto a insegui merdina");
+                isShooting = false;
+                _anim.StartAnimationShoot(isShooting);
                 ChasePlayer();
             }
             else
             {
+                isShooting = true;
+                _anim.StartAnimationShoot(isShooting);
                 if (Time.time - lastTimeShoot > fireRate)
                 {
                     lastTimeShoot = Time.time;
-                    distanceAttk.Shoot(dir,player);
 
+                    Vector2 side = new Vector2(-dir.y, dir.x); //è per dare una nuova direzione seguendo quella voluta
+
+                    distanceAttk.Shoot(dir, player);          
+                    distanceAttk.Shoot((dir + side * spread), player);
+                    distanceAttk.Shoot((dir - side * spread), player);
 
                 }
 
-                Debug.Log("ciccio avvicinati");
+
+
             }
         }
     }
@@ -54,6 +63,7 @@ public class Boss : Enemy
         if (collision.collider.TryGetComponent<PlayerController>(out var player))
         {
             player.lifePlayer.TakeDamage(_damage);
+            Debug.Log("vita player " + player.lifePlayer.Hp);
             if (!player.lifePlayer.IsAlive())
             {
                 player.DiePlayer();

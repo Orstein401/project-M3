@@ -10,6 +10,8 @@ public class BulletBoss : Bullet
         if (collision.collider.TryGetComponent<PlayerController>(out var player))
         {
             player.lifePlayer.TakeDamage(damage);
+            Debug.Log("vita player " + player.lifePlayer.Hp);
+
             if (!player.lifePlayer.IsAlive())
             {
                 player.DiePlayer();

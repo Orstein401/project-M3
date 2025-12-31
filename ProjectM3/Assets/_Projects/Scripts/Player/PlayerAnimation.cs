@@ -13,10 +13,18 @@ public class PlayerAnimation : AnimationHandler
 
     private void Update()
     {
-        if (player.Direction!=Vector2.zero)
+        if (!player.isDeath)
         {
-            SetDirectionAnimation(player.Direction);
+            if (player.Direction != Vector2.zero)
+            {
+                SetDirectionAnimation(player.Direction);
+            }
         }
+        else
+        {
+            StartAnimationDeath(player.isDeath);
+        }
+     
         
     }
 }

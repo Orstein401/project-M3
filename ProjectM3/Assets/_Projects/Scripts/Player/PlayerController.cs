@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     //Stats
     [SerializeField] private float speed;
     [SerializeField] private int _hp;
+    public bool isDeath;
    
     //Direction
     private float horizontal;
@@ -39,8 +40,9 @@ public class PlayerController : MonoBehaviour
 
     public void DiePlayer()
     {
-        Debug.Log("player morto");
-        Destroy(gameObject);
+        isDeath = true;
+        GetComponent<Collider2D>().enabled = false;
+        Destroy(gameObject,3f);
 
     }
     //Unity Messages
@@ -72,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (direction != Vector2.zero) 
+        if (direction != Vector2.zero&&!isDeath) 
         {         
             SetAndNormalize();
             lastDirection = direction.normalized;
