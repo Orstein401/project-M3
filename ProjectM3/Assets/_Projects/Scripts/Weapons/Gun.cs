@@ -11,7 +11,7 @@ public class Gun : MonoBehaviour
 
     EnemyManager managerEnemy;
 
-    PlayerController directionShoot;
+    PlayerController player;
     private float lastTimeShoot;
     public void Shoot(Vector2 direction)
     {
@@ -45,15 +45,15 @@ public class Gun : MonoBehaviour
 
     private void Awake()
     {
-        directionShoot = GetComponentInParent<PlayerController>();
+        player = GetComponentInParent<PlayerController>();
         managerEnemy = FindAnyObjectByType<EnemyManager>();
     }
     private void Update()
     {
-        if (Time.time - lastTimeShoot > fireRate)
+        if (Time.time - lastTimeShoot > fireRate&&!player.isDeath)
         {
             lastTimeShoot = Time.time;
-            Shoot(directionShoot.lastDirection);
+            Shoot(player.lastDirection);
 
         }
     }

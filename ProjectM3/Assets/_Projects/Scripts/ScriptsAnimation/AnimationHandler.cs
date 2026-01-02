@@ -10,9 +10,6 @@ public class AnimationHandler : MonoBehaviour
     [SerializeField] string isDeath = "IsDeath";
     [SerializeField] string isShooting = "IsShooting";
 
-
-
-
     protected void Awake()
     {
         _anim = GetComponentInChildren<Animator>();
